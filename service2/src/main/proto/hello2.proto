@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.jsp";
+option java_outer_classname = "HelloProto";
+
+package org.jsp;
+
+// The greeting service definition.
+service Service2 {
+    // Sends a greeting
+    rpc SayHello (HelloRequest2) returns (HelloReply2) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest2 {
+    string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply2 {
+    string message = 1;
+}
