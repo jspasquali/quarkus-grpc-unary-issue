@@ -1,17 +1,24 @@
 # quarkus-grpc-unary-issue project
 
-Reproducing issue:
+2 grpc services: service1 listening on 9000, service2 listening on 9001
+
+HTTP test endpoint hosted in service1, listening on 8086
+
+localhost:8086/test/service1  ->  calls grpc service1 ->  calls grpc service2 
+
+localhost:8086/test/service2  ->  calls grpc service2
+
 
 ```
-mvn clean package
+mvn clean install
 # console 1
 java -jar service1/target/service1-1.0.0-SNAPSHOT-runner.jar
 # console 2
 java -jar service2/target/service2-1.0.0-SNAPSHOT-runner.jar
 
 # console 3
-curl -s localhost:8086/test/service1   # works
-curl -s localhost:8086/test/service1   # fails
+curl -s localhost:8086/test/service1   # first call works sometimes
+curl -s localhost:8086/test/service1   # fails and the curl request hangs
 ```
 
 Logs of service1:
@@ -44,7 +51,11 @@ Logs of service1:
 
 Direct calls to service2 work:
 ```
-curl -s localhost:8086/test/service2
-curl -s localhost:8086/test/service2
-curl -s localhost:8086/test/service2
+$ curl -s localhost:8086/test/service2
+Service2 says hello to Jack
+$ curl -s localhost:8086/test/service2
+Service2 says hello to Jack
+$ curl -s localhost:8086/test/service2
+Service2 says hello to Jack
+
 ```
